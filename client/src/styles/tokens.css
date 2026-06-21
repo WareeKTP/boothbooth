@@ -1,0 +1,120 @@
+/* Design tokens — lifted verbatim from design-reference/index.html.
+   OKLCH color system, dark (default) + light via html[data-theme="light"],
+   density via html[data-density]. */
+:root {
+  --bg: oklch(0.165 0.012 248);
+  --surface: oklch(0.205 0.013 248);
+  --surface-2: oklch(0.245 0.014 248);
+  --inset: oklch(0.155 0.012 248);
+  --line: oklch(0.285 0.014 248);
+  --line-soft: oklch(0.245 0.012 248);
+  --text: oklch(0.955 0.006 248);
+  --text-2: oklch(0.74 0.012 248);
+  --text-3: oklch(0.58 0.012 248);
+  --muted: oklch(0.58 0.012 248);
+  --accent: #38bdf8;
+  /* Focus-ring-specific variant: identical to --accent by default (dark
+     theme accent measures 8.99:1 against --bg, well past the 3:1 non-text
+     minimum). Overridden in light theme — see that block for why. */
+  --accent-focus: var(--accent);
+  --ok: oklch(0.80 0.15 158);
+  --warn: oklch(0.83 0.13 80);
+  --crit: oklch(0.70 0.19 22);
+  /* Text-on-own-tint variants (Badge component): identical to --ok/--warn/--crit
+     by default. Dark theme's badge text already clears AA with margin against
+     its 14%-opacity tint (verified 5.7-9:1), so no separate value needed there. */
+  --ok-text: var(--ok);
+  --warn-text: var(--warn);
+  --crit-text: var(--crit);
+  --radius: 12px;
+  --pad: 22px;
+  --side-w: 236px;
+  --row-h: 13px;
+  font-size: 15px;
+}
+
+html[data-density="compact"] {
+  --pad: 15px;
+  font-size: 14px;
+}
+html[data-density="comfy"] {
+  --pad: 30px;
+  font-size: 16px;
+}
+
+html[data-theme="light"] {
+  --bg: oklch(0.975 0.004 248);
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.965 0.005 248);
+  --inset: oklch(0.955 0.006 248);
+  --line: oklch(0.90 0.008 248);
+  --line-soft: oklch(0.935 0.006 248);
+  --text: oklch(0.27 0.02 248);
+  --text-2: oklch(0.44 0.02 248);
+  /* Glare Margin Rule: was L=0.56 (4.63:1 against --surface, but only 4.08:1
+     against the slightly-darker --inset surface used by inputs/placeholders
+     — DESIGN.md explicitly calls placeholder text out as needing to "clear
+     contrast," and --text-3 doubles as placeholder color). L=0.52 measures
+     4.84:1 against --inset, clearing the 4.5:1 AA body floor with a touch of
+     margin; against --surface it's correspondingly higher. Same hue/chroma,
+     one step down the existing ramp — not a new color. */
+  --text-3: oklch(0.52 0.018 248);
+  --muted: oklch(0.52 0.018 248);
+  --ok: oklch(0.60 0.15 158);
+  --warn: oklch(0.66 0.14 70);
+  --crit: oklch(0.56 0.20 25);
+  /* Glare Margin Rule: --ok/--warn/--crit at full strength pass AA fine as
+     dots/bars/chart lines on a near-white surface, but Badge renders them as
+     TEXT on their own 14%-opacity tint — a much paler effective background.
+     Measured (Playwright + canvas-resolved OKLCH, page bg oklch(0.975 0.004 248)):
+     --ok 2.88:1, --warn 2.59:1, --crit 3.87:1 — all fail the 4.5:1 AA body-text
+     floor, let alone "real margin" for bright expo-hall glare. Darkening 30%
+     toward black (same hue, same token everywhere else) measured 6.39 / 5.94 /
+     8.00:1 — comfortable margin above AA. Dark theme needs no equivalent
+     override: its badge text already measures 8.9 / 9.0 / 5.7:1 against its
+     own tint.  */
+  --ok-text: color-mix(in oklch, var(--ok) 70%, black 30%);
+  --warn-text: color-mix(in oklch, var(--warn) 70%, black 30%);
+  --crit-text: color-mix(in oklch, var(--crit) 70%, black 30%);
+  /* Same Glare Margin Rule logic applied to the focus ring: --accent
+     measures only 1.99:1 against the light-theme page bg (oklch(0.975 0.004
+     248)), failing WCAG 2.1 SC 1.4.11's 3:1 non-text-contrast minimum for
+     focus indicators. Darkening 25% toward black (same hue) measured 3.44:1
+     — clears the floor while still reading as Expo Sky, not a new color. */
+  --accent-focus: color-mix(in srgb, var(--accent) 75%, black 25%);
+}
+html[data-theme="light"] body {
+  color: var(--text);
+}
+html[data-theme="light"] .bb-card,
+html[data-theme="light"] .bb-cart,
+html[data-theme="light"] .bb-pcard {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .05);
+}
+html[data-theme="light"] .bb-seg.on {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .12);
+}
+html[data-theme="light"] .bb-modal-scrim {
+  background: color-mix(in oklch, oklch(0.32 0.03 248) 32%, transparent);
+}
+html[data-theme="light"] .bb-btn-solid {
+  color: #06202b;
+}
+html[data-theme="light"] .bb-btn-solid:disabled {
+  /* DESIGN.md specs a flat 40% opacity for disabled solid buttons, tuned
+     against the dark theme's near-black page. Composited toward a
+     near-white light-theme page, 40% opacity measures only 1.85:1 between
+     the label and the button fill — "Complete sale" becomes near-illegible,
+     not just visibly inactive, on the highest-pressure POS screen. Raising
+     to 65% (still clearly washed out next to the saturated enabled button)
+     measures 3.25:1 — legible while staying unambiguously disabled. */
+  opacity: .65;
+}
+html[data-theme="light"] .bb-navbadge,
+html[data-theme="light"] .bb-pcard-badge {
+  color: #06202b;
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-color: var(--bg);
+}

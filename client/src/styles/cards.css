@@ -1,0 +1,540 @@
+/* Cards, KPIs, panels, attention list, location grid, progress/level bars,
+   breakdown bars, booth cards, chart — lifted from design-reference/index.html. */
+.bb-card {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: var(--pad);
+}
+.bb-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.bb-detail-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.bb-kpi {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.bb-kpi-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+.bb-kpi-ic {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.bb-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.bb-stat-top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.bb-stat-val {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.bb-stat-delta {
+  font-size: 0.68rem;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.bb-stat-label {
+  font-size: 0.76rem;
+  color: var(--text-3);
+}
+
+/* ---------- panels ---------- */
+.bb-grid-2 {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: var(--pad);
+  align-items: start;
+}
+.bb-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad);
+}
+.bb-panel {
+  overflow: hidden;
+}
+.bb-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.bb-count {
+  font-size: 0.74rem;
+  color: var(--text-3);
+  background: var(--surface-2);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* ---------- attention list ---------- */
+.bb-attn {
+  display: flex;
+  flex-direction: column;
+}
+.bb-attn-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.bb-attn-row:last-child {
+  border-bottom: none;
+}
+.bb-attn-main {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.bb-attn-main:hover .bb-attn-name {
+  color: var(--accent);
+}
+.bb-attn-name {
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: .12s;
+}
+.bb-attn-sku {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.bb-attn-stores {
+  display: flex;
+  gap: 6px;
+}
+.bb-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 30px;
+  padding: 4px 6px;
+  background: var(--inset);
+  border: 1px solid var(--line-soft);
+  border-radius: 7px;
+}
+.bb-chip-loc {
+  font-size: 0.58rem;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+.bb-chip-q {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ---------- location grid ---------- */
+.bb-loc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-soft);
+}
+.bb-loc {
+  background: var(--surface);
+  padding: 15px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.bb-loc-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.bb-loc-name {
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+.bb-loc-meta {
+  font-size: 0.62rem;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+.bb-loc-pct {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.bb-loc-foot {
+  font-size: 0.66rem;
+  color: var(--text-3);
+}
+
+/* ---------- progress / level ---------- */
+.bb-prog {
+  width: 100%;
+  background: var(--inset);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bb-prog-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .5s ease;
+}
+.bb-level {
+  position: relative;
+  height: 8px;
+  background: var(--inset);
+  border-radius: 99px;
+  overflow: visible;
+}
+.bb-level-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .4s ease;
+}
+.bb-level-mark {
+  position: absolute;
+  top: -2px;
+  width: 2px;
+  height: 12px;
+  background: var(--text-2);
+  border-radius: 2px;
+  opacity: .7;
+}
+
+/* ---------- feed ---------- */
+.bb-feed {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+.bb-feed-row {
+  display: flex;
+  gap: 12px;
+  padding: 9px 16px;
+}
+.bb-feed-rail {
+  padding-top: 5px;
+}
+.bb-feed-text {
+  font-size: 0.81rem;
+  line-height: 1.4;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+.bb-feed-time {
+  font-size: 0.64rem;
+  color: var(--text-3);
+  margin-top: 3px;
+}
+
+/* ---------- breakdown bars ---------- */
+.bb-bd {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+.bb-bd-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  width: 100%;
+  text-align: left;
+}
+.bb-bd-rank {
+  flex: 0 0 18px;
+  color: var(--text-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.bb-bd-name {
+  flex: 0 0 150px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bb-bd-name b {
+  font-weight: 600;
+}
+.bb-bd-sub {
+  font-size: 0.62rem;
+  color: var(--text-3);
+  font-weight: 400;
+}
+.bb-bd-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--inset);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bb-bd-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width .5s ease;
+}
+.bb-bd-units {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  color: var(--text-3);
+  text-align: right;
+  white-space: nowrap;
+}
+.bb-bd-rev {
+  flex: 0 0 84px;
+  text-align: right;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.bb-bd-booth .bb-bd-name {
+  flex: 0 0 130px;
+}
+.bb-booth-row {
+  cursor: pointer;
+  border-radius: 8px;
+  transition: .1s;
+}
+.bb-booth-row:hover {
+  background: var(--surface-2);
+}
+
+/* ---------- chart ---------- */
+.bb-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.bb-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: var(--text-2);
+}
+.bb-legend-item b {
+  color: var(--text);
+  font-weight: 600;
+}
+.bb-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  flex: 0 0 auto;
+}
+.bb-chart-wrap {
+  padding: 16px 18px 6px;
+}
+.bb-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.bb-chart-tick {
+  fill: var(--text-3);
+  font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.bb-chart-end {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.bb-chart-axis {
+  fill: var(--text-3);
+  font-size: 11px;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+/* ---------- booth cards ---------- */
+.bb-booth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.bb-boothcard {
+  padding: 0;
+  overflow: hidden;
+}
+.bb-boothcard-btn {
+  width: 100%;
+  text-align: left;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: .12s;
+}
+.bb-boothcard-btn:hover {
+  background: var(--surface-2);
+}
+.bb-boothcard-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bb-booth-tag {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklch, var(--accent) 16%, transparent);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.86rem;
+  border: 1px solid color-mix(in oklch, var(--accent) 28%, transparent);
+}
+.bb-boothcard-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.bb-boothcard-loc {
+  font-size: 0.66rem;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.bb-boothcard-rev {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.bb-boothcard-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  color: var(--text-3);
+}
+.bb-boothcard-low {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--warn-text);
+  margin-left: auto;
+}
+.bb-boothcard-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+}
+.bb-boothcard-staff {
+  font-size: 0.78rem;
+  color: var(--text-2);
+}
+.bb-boothcard-top {
+  font-size: 0.66rem;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+/* ---------- banner ---------- */
+.bb-banner {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 16px;
+  border-radius: var(--radius);
+  font-size: 0.84rem;
+  color: var(--text);
+  background: color-mix(in oklch, var(--crit) 12%, var(--surface));
+  border: 1px solid color-mix(in oklch, var(--crit) 30%, transparent);
+}
+.bb-banner .bb-ic {
+  color: var(--crit-text);
+  flex: 0 0 auto;
+}
+.bb-banner b {
+  font-weight: 600;
+}
+
+/* ---------- toasts ---------- */
+.bb-toasts {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2147483500;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+.bb-toast {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.84rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+  animation: bbtoast .22s ease;
+}
+@keyframes bbtoast {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Moved from shell.css: same-specificity as the base .bb-grid-2/.bb-kpis/
+   .bb-detail-stats rules above, so it must live in (or after) this file to
+   actually win in the cascade — shell.css is @imported first in index.css,
+   so a same-specificity override placed there is always beaten by this
+   file's plain rule regardless of viewport, silently no-opping the
+   breakpoint. Verified broken (4 uneven columns at 768px) before this move,
+   confirmed fixed (2x2 grid / single column) after. */
+@media (max-width: 1080px) {
+  .bb-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .bb-kpis, .bb-detail-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}

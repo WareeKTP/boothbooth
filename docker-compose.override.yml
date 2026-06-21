@@ -1,0 +1,46 @@
+# ============================================================================
+# BoothBooth — DEV override (infra-final.md §2.2)
+#
+# Auto-loaded by `docker compose up` (no -f needed). Adds developer ergonomics
+# on top of the base: published DB/api ports, source bind-mount + live reload.
+#
+# NOTE on the client in dev: we generally do NOT run the nginx container in dev.
+# Instead run the Vite dev server on the host:
+#     cd client && npm run dev        # -> http://localhost:5173
+# Vite's built-in proxy (vite.config.ts: server.proxy['/api'] -> :4000) keeps dev
+# same-origin, so relative /api/... works with zero CORS config — identical code
+# to prod. The nginx `client` service is gated behind the `client` profile below,
+# so it only starts if you explicitly want to test the production image locally:
+#     docker compose --profile client up
+# ============================================================================
+
+services:
+  postgres:
+    ports:
+      - "5432:5432"        # local DB tooling (psql / a GUI). Dev-only.
+
+  api:
+    # Use the build stage: it has dev deps (tsx) + full source for live reload.
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+      target: build
+    image: boothbooth-api-dev
+    user: root             # bind-mounted host source isn't owned by the image user.
+    command: ["npm", "run", "dev", "--workspace=@boothbooth/server"]   # tsx watch
+    environment:
+      NODE_ENV: development
+      COOKIE_SECURE: "false"          # session cookie works over plaintext localhost.
+    ports:
+      - "4000:4000"        # direct API poking / curl during dev.
+    volumes:
+      # Live reload: mount host source over the image's copy. Anonymous volume on
+      # node_modules so the container's installed deps aren't shadowed by the host.
+      - ./server:/app/server
+      - /app/node_modules
+      - /app/server/node_modules
+
+  client:
+    # Off by default in dev (use the Vite dev server on :5173 instead). Start with
+    # `docker compose --profile client up` to exercise the prod nginx image.
+    profiles: ["client"]

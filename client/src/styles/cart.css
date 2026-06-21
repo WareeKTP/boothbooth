@@ -1,0 +1,121 @@
+/* POS cart sidebar — lifted from design-reference/index.html. */
+.bb-cart {
+  flex: 0 0 336px;
+  width: 336px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  max-height: calc(100vh - 62px - 2 * var(--pad));
+  overflow: hidden;
+}
+.bb-cart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.bb-cart-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 120px;
+}
+.bb-cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 48px 16px;
+  color: var(--text-3);
+  text-align: center;
+}
+.bb-cart-empty .bb-ic {
+  color: var(--text-3);
+  opacity: .6;
+}
+.bb-cart-empty span {
+  font-size: 0.86rem;
+  color: var(--text-2);
+}
+.bb-cart-empty small {
+  font-size: 0.72rem;
+}
+.bb-cart-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.bb-cart-line-info {
+  flex: 1;
+  min-width: 0;
+}
+.bb-cart-line-name {
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+.bb-cart-line-price {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.bb-cart-line-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.bb-cart-line-tot {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.bb-stepper-q {
+  min-width: 24px;
+  text-align: center;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+.bb-cart-foot {
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background: var(--inset);
+}
+.bb-cart-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--text-2);
+}
+.bb-cart-total {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+.bb-cart-total .mono {
+  color: var(--accent);
+}
+
+/* Moved from shell.css: same-specificity as the base .bb-cart rule above
+   (width/flex/position), so an override placed in shell.css — imported
+   before this file in index.css — silently lost the cascade tie regardless
+   of viewport. Verified broken (cart stayed 336px wide + position:sticky
+   when stacked under the POS grid at 768/390px) before this move. */
+@media (max-width: 980px) {
+  .bb-cart {
+    width: 100%;
+    flex: 1 1 auto;
+    position: static;
+    max-height: none;
+  }
+}

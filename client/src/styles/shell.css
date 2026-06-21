@@ -1,0 +1,417 @@
+/* App shell: sidebar nav, topbar, page heads, current-user menu — lifted from
+   design-reference/index.html. */
+.bb-app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+.bb-side {
+  width: var(--side-w);
+  flex: 0 0 var(--side-w);
+  background: var(--inset);
+  border-right: 1px solid var(--line-soft);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 14px;
+  gap: 6px;
+}
+.bb-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 6px 8px 16px;
+}
+.bb-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklch, var(--accent) 18%, transparent);
+  color: var(--accent);
+  border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+}
+.bb-brand-name {
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: -0.02em;
+}
+.bb-brand-sub {
+  font-size: 0.6rem;
+  color: var(--text-3);
+  letter-spacing: 0.14em;
+  margin-top: 1px;
+}
+
+.bb-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+}
+.bb-navitem {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 11px;
+  border-radius: 9px;
+  color: var(--text-2);
+  font-weight: 500;
+  font-size: 0.92rem;
+  text-align: left;
+  position: relative;
+  transition: .13s;
+}
+.bb-navitem span {
+  white-space: nowrap;
+}
+.bb-navitem:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.bb-navitem.on {
+  background: color-mix(in oklch, var(--accent) 14%, transparent);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--accent) 22%, transparent);
+}
+.bb-navitem.on .bb-ic {
+  color: var(--accent);
+}
+.bb-navbadge {
+  margin-left: auto;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  border-radius: 6px;
+  color: #0b0f14;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.bb-side-foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bb-side-card {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  padding: 11px 12px;
+}
+.bb-side-card-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.7rem;
+  color: var(--ok-text);
+  letter-spacing: 0.08em;
+}
+.bb-side-card-sub {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  margin-top: 5px;
+}
+.bb-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px;
+}
+.bb-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  display: grid;
+  place-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-2);
+  border: 1px solid var(--line);
+}
+.bb-user-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bb-user-role {
+  font-size: 0.62rem;
+  color: var(--text-3);
+  letter-spacing: 0.1em;
+}
+
+.bb-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.bb-topbar {
+  height: 62px;
+  flex: 0 0 62px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 var(--pad);
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+.bb-searchbox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+  max-width: 460px;
+  height: 38px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text-3);
+  transition: .13s;
+}
+.bb-searchbox:focus-within {
+  border-color: color-mix(in oklch, var(--accent-focus) 50%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-focus) 12%, transparent);
+}
+.bb-searchbox input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+.bb-searchbox input::placeholder {
+  color: var(--text-3);
+}
+.bb-top-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.bb-iconbtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+  transition: .12s;
+}
+.bb-iconbtn:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.bb-bell {
+  position: relative;
+}
+.bb-bell-dot {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--crit);
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.bb-mode-btn {
+  border: 1px solid var(--line-soft);
+  background: var(--surface);
+}
+.bb-mode-btn:hover {
+  background: var(--surface-2);
+}
+
+.bb-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--pad);
+}
+.bb-screen {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad);
+}
+
+/* ---------- page heads ---------- */
+.bb-page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.bb-h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+.bb-sub {
+  margin: 5px 0 0;
+  color: var(--text-3);
+  font-size: 0.86rem;
+}
+.bb-h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.bb-h2 .bb-ic {
+  color: var(--text-3);
+}
+.bb-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 9px;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text-2);
+}
+.bb-live-time {
+  color: var(--text);
+  font-size: 0.8rem;
+}
+.bb-detail-cat {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  letter-spacing: 0.12em;
+  margin-bottom: 7px;
+}
+.bb-detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- current-user menu (CurrentUserMenu, was AccountSwitcher) ---------- */
+.bb-acct {
+  position: relative;
+}
+.bb-acct-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  transition: .12s;
+}
+.bb-acct-btn:hover {
+  background: var(--surface);
+}
+.bb-acct-cur {
+  min-width: 0;
+  text-align: left;
+}
+.bb-acct-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 6px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+  z-index: 50;
+}
+.bb-acct-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+}
+.bb-acct-sep {
+  height: 1px;
+  background: var(--line-soft);
+  margin: 6px 4px;
+}
+.bb-acct-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-2);
+  transition: .1s;
+}
+.bb-acct-action:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.bb-acct-action span {
+  white-space: nowrap;
+}
+.bb-acct-action .bb-ic {
+  color: var(--text-3);
+}
+.bb-acct-logout {
+  color: var(--crit);
+}
+.bb-acct-logout:hover {
+  background: color-mix(in oklch, var(--crit) 12%, transparent);
+  color: var(--crit);
+}
+.bb-acct-logout .bb-ic {
+  color: var(--crit);
+}
+
+/* .bb-grid-2/.bb-kpis/.bb-detail-stats (cards.css) and .bb-cart (cart.css)
+   responsive overrides moved to their owning files — they were here
+   overriding a same-specificity base rule defined in a file imported AFTER
+   shell.css, so CSS source-order resolution silently discarded these and
+   the tablet/mobile breakpoints never actually applied. .bb-pos's
+   flex-direction override stayed here safely because pos.css's base .bb-pos
+   rule never sets flex-direction, so there's no competing declaration to
+   lose to. */
+@media (max-width: 980px) {
+  .bb-pos {
+    flex-direction: column;
+  }
+}
+@media (max-width: 720px) {
+  .bb-side {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  /* At phone width the searchbox + role pill + primary action (e.g. "New
+     sale") no longer fit one row — measured overflow of ~67px at 390px
+     wide. Search is a desktop/tablet convenience (POS has its own category
+     filter for narrowing products); the role identity and the one primary
+     action are what staff actually need on a phone-sized screen, so those
+     stay and the searchbox steps aside instead of clipping off-screen. */
+  .bb-searchbox {
+    display: none;
+  }
+  .bb-top-right {
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+}

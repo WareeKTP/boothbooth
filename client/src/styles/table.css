@@ -1,0 +1,418 @@
+/* Data tables (warehouse / booths / transactions), transfer mini-list,
+   warehouse cells, byloc rows, stepper, kv list — lifted from design-reference/index.html. */
+.bb-tablewrap {
+  overflow-x: auto;
+}
+.bb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+.bb-table thead th {
+  text-align: left;
+  padding: 11px 16px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.bb-table thead th:hover {
+  color: var(--text);
+}
+.bb-th-r {
+  text-align: right;
+}
+.bb-th-in {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.bb-th-r .bb-th-in {
+  flex-direction: row-reverse;
+}
+.bb-table tbody tr {
+  border-bottom: 1px solid var(--line-soft);
+  cursor: pointer;
+  transition: .1s;
+}
+.bb-table tbody tr:last-child {
+  border-bottom: none;
+}
+.bb-table tbody tr:hover {
+  background: var(--surface-2);
+}
+.bb-table td {
+  padding: 11px 16px;
+  vertical-align: middle;
+}
+.bb-td-r {
+  text-align: right;
+  white-space: nowrap;
+}
+.bb-cell-name {
+  font-weight: 500;
+}
+.bb-cell-sku {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.bb-cat-tag {
+  font-size: 0.72rem;
+  color: var(--text-2);
+  background: var(--inset);
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--line-soft);
+}
+.bb-storelevels {
+  display: flex;
+  gap: 5px;
+}
+.bb-sl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 28px;
+}
+.bb-sl-loc {
+  font-size: 0.56rem;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+.bb-sl-q {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ---------- transfer mini list ---------- */
+.bb-tlist {
+  display: flex;
+  flex-direction: column;
+}
+.bb-titem {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  cursor: pointer;
+  transition: .12s;
+}
+.bb-titem:last-child {
+  border-bottom: none;
+}
+.bb-titem:hover {
+  background: var(--surface-2);
+}
+.bb-titem-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bb-tid {
+  font-size: 0.74rem;
+  color: var(--text-2);
+  font-weight: 500;
+}
+.bb-titem-name {
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+.bb-titem-route {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  color: var(--text-3);
+}
+
+/* ---------- detail / byloc / kv / stepper ---------- */
+.bb-byloc {
+  display: flex;
+  flex-direction: column;
+}
+.bb-byloc-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.bb-byloc-row:last-child {
+  border-bottom: none;
+}
+.bb-byloc-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.bb-byloc-name {
+  font-size: 0.86rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bb-byloc-type {
+  font-size: 0.56rem;
+  color: var(--text-3);
+  background: var(--inset);
+  padding: 2px 6px;
+  border-radius: 5px;
+  letter-spacing: 0.06em;
+}
+.bb-byloc-meta {
+  font-size: 0.62rem;
+  color: var(--text-3);
+}
+.bb-byloc-q {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bb-byloc-q > .mono {
+  font-size: 1.15rem;
+  font-weight: 600;
+  min-width: 42px;
+  text-align: right;
+}
+.bb-stepper {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.bb-stepper button {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+  background: var(--surface-2);
+  transition: .1s;
+}
+.bb-stepper button:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.bb-stepper button:first-child {
+  border-right: 1px solid var(--line);
+}
+.bb-stepper button:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+.bb-kv {
+  display: flex;
+  flex-direction: column;
+}
+.bb-kv > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 0.84rem;
+}
+.bb-kv > div:last-child {
+  border-bottom: none;
+}
+.bb-kv span {
+  color: var(--text-3);
+}
+
+/* ---------- transfers board (unused in v1, kept for class parity if needed) ---------- */
+.bb-tboard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bb-tcard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 18px;
+  transition: .13s;
+}
+.bb-tcard-focus {
+  border-color: color-mix(in oklch, var(--accent) 55%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent);
+}
+.bb-tcard-l {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bb-tcard-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bb-eta {
+  font-size: 0.7rem;
+  color: var(--text-3);
+  margin-left: auto;
+}
+.bb-tcard-name {
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.bb-route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bb-route-node {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-2);
+  min-width: 24px;
+}
+.bb-route-node i {
+  font-style: normal;
+  font-size: 0.6rem;
+  color: var(--text-3);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+.bb-route-dest {
+  align-items: flex-end;
+  text-align: right;
+}
+.bb-route-dest i {
+  color: var(--accent);
+}
+.bb-route-line {
+  flex: 1;
+}
+.bb-tcard-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.7rem;
+  color: var(--text-3);
+}
+.bb-tcard-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.bb-tnote {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--warn);
+  background: color-mix(in oklch, var(--warn) 10%, transparent);
+  padding: 5px 9px;
+  border-radius: 7px;
+  width: max-content;
+}
+.bb-tcard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 0 auto;
+  align-items: stretch;
+  width: 150px;
+}
+.bb-tcard-actions .bb-btn {
+  justify-content: center;
+}
+.bb-delivered {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  color: var(--ok);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 8px;
+}
+
+/* ---------- transactions ---------- */
+.bb-txns {
+  display: flex;
+  flex-direction: column;
+}
+.bb-txn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.bb-txn:last-child {
+  border-bottom: none;
+}
+.bb-txn-time {
+  flex: 0 0 46px;
+  font-size: 0.74rem;
+  color: var(--text-3);
+}
+.bb-txn-mid {
+  flex: 1;
+  min-width: 0;
+}
+.bb-txn-id {
+  font-size: 0.66rem;
+  color: var(--text-3);
+}
+.bb-txn-items {
+  font-size: 0.82rem;
+  color: var(--text);
+  margin-top: 2px;
+  text-wrap: pretty;
+}
+.bb-txn-tot {
+  flex: 0 0 auto;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+/* ---------- warehouse cells ---------- */
+.bb-wh-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 160px;
+}
+.bb-wh-q {
+  font-size: 0.95rem;
+  font-weight: 600;
+  min-width: 34px;
+}
+.bb-rem-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 130px;
+}
+.bb-rem-cell > .mono {
+  font-size: 0.92rem;
+  font-weight: 600;
+  min-width: 28px;
+}
+.bb-ok-tick {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  color: var(--ok);
+  background: color-mix(in oklch, var(--ok) 12%, transparent);
+}

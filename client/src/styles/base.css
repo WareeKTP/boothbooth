@@ -1,0 +1,345 @@
+/* Base/reset + typography + scrollbars + generic atoms (badges, buttons, inputs,
+   toolbar/segment/pills, switch) — lifted from design-reference/index.html. */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  height: 100%;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+.mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+input {
+  font-family: inherit;
+}
+::selection {
+  background: color-mix(in oklch, var(--accent) 35%, transparent);
+}
+.bb-ic {
+  stroke-width: 1.85;
+}
+
+/* ---------- badges / dots / buttons ---------- */
+.bb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 7px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.bb-dot {
+  display: inline-block;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.bb-dot-pulse {
+  animation: bbpulse 1.8s ease-out infinite;
+}
+@keyframes bbpulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--ok) 60%, transparent); }
+  70% { box-shadow: 0 0 0 5px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.bb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 14px;
+  height: 36px;
+  border-radius: 9px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: .13s;
+  white-space: nowrap;
+}
+.bb-btn-solid {
+  background: var(--accent);
+  color: #06141d;
+  font-weight: 600;
+}
+.bb-btn-solid:hover {
+  filter: brightness(1.08);
+}
+.bb-btn-solid:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  filter: none;
+}
+.bb-btn-ghost {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.bb-btn-ghost:hover {
+  background: var(--surface);
+  border-color: var(--text-3);
+}
+.bb-btn-ghost:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+.bb-btn-danger {
+  background: color-mix(in oklch, var(--crit) 14%, transparent);
+  color: var(--crit-text);
+  border: 1px solid color-mix(in oklch, var(--crit) 32%, transparent);
+}
+.bb-btn-danger:hover {
+  background: color-mix(in oklch, var(--crit) 22%, transparent);
+}
+.bb-btn-danger:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+.bb-btn:focus-visible {
+  outline: 2px solid var(--accent-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- toolbar / segment / pills ---------- */
+.bb-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.bb-segment {
+  display: inline-flex;
+  background: var(--inset);
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  padding: 3px;
+  gap: 2px;
+}
+.bb-segment-fill {
+  display: flex;
+  width: 100%;
+}
+.bb-segment-fill .bb-seg {
+  flex: 1;
+}
+.bb-seg {
+  padding: 6px 13px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-3);
+  transition: .12s;
+}
+.bb-seg:hover {
+  color: var(--text);
+}
+.bb-seg.on {
+  background: var(--surface);
+  color: var(--text);
+}
+.bb-cat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bb-pill {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  transition: .12s;
+}
+.bb-pill:hover {
+  border-color: var(--text-3);
+}
+.bb-pill.on {
+  background: color-mix(in oklch, var(--accent) 16%, transparent);
+  color: var(--text);
+  border-color: color-mix(in oklch, var(--accent) 35%, transparent);
+}
+
+/* ---------- inputs / select ---------- */
+.bb-input {
+  height: 44px;
+  background: var(--inset);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  padding: 0 13px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: .12s;
+  width: 100%;
+}
+.bb-input:focus {
+  border-color: color-mix(in oklch, var(--accent-focus) 50%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-focus) 12%, transparent);
+}
+.bb-input::placeholder {
+  color: var(--text-3);
+}
+.bb-select {
+  height: 44px;
+  background: var(--inset);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  padding: 0 12px;
+  font-size: 0.9rem;
+  outline: none;
+}
+.bb-select:focus {
+  border-color: color-mix(in oklch, var(--accent-focus) 50%, var(--line));
+}
+
+/* ---------- switch ---------- */
+.bb-switch {
+  width: 42px;
+  height: 24px;
+  border-radius: 99px;
+  background: var(--line);
+  position: relative;
+  transition: .16s;
+  flex: 0 0 auto;
+}
+.bb-switch.on {
+  background: var(--accent);
+}
+.bb-switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: .16s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+}
+.bb-switch.on .bb-switch-knob {
+  left: 21px;
+}
+
+/* ---------- misc shared atoms ---------- */
+.bb-rolepill {
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  color: var(--text-2);
+  padding: 6px 11px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+}
+.bb-empty {
+  padding: 24px 16px;
+  color: var(--text-3);
+  font-size: 0.86rem;
+  text-align: center;
+}
+.bb-empty-lg {
+  padding: 48px 16px;
+}
+.bb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+.bb-link:hover {
+  text-decoration: underline;
+}
+.bb-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-3);
+  font-size: 0.82rem;
+  font-weight: 500;
+  width: max-content;
+  padding: 4px 0;
+  transition: .12s;
+}
+.bb-back:hover {
+  color: var(--accent);
+}
+.bb-dim {
+  color: var(--text-3);
+}
+.bb-unit {
+  color: var(--text-3);
+  font-size: 0.72rem;
+}
+.bb-row-arrow {
+  color: var(--text-3);
+}
+.bb-incoming {
+  color: var(--accent);
+}
+.bb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bb-field > span {
+  font-size: 0.74rem;
+  color: var(--text-3);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- focus-visible (keyboard nav) ----------
+   Centralized so every interactive element gets the same accent-ring
+   treatment as .bb-btn:focus-visible, without re-declaring it per class.
+   Covers nav items, icon buttons, segment/pill toggles, account-menu
+   actions, table/list rows, and card buttons that don't already have their
+   own focus style (inputs/selects/search already define :focus rings). */
+.bb-navitem:focus-visible,
+.bb-iconbtn:focus-visible,
+.bb-seg:focus-visible,
+.bb-pill:focus-visible,
+.bb-link:focus-visible,
+.bb-back:focus-visible,
+.bb-acct-btn:focus-visible,
+.bb-acct-action:focus-visible,
+.bb-boothcard-btn:focus-visible,
+.bb-attn-main:focus-visible,
+.bb-table tbody tr:focus-visible,
+.bb-titem:focus-visible,
+.bb-stepper button:focus-visible,
+.bb-count-input button:focus-visible {
+  outline: 2px solid var(--accent-focus);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 99px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-3);
+}

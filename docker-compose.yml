@@ -1,0 +1,107 @@
+# ============================================================================
+# BoothBooth — base compose (infra-final.md §2.1)
+#
+# Shared by dev and prod. Three long-lived services (postgres, api, client) plus
+# one short-lived migrate job, on one user-defined bridge network.
+#
+#   dev  : docker compose up            (auto-loads docker-compose.override.yml)
+#   prod : docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# All credentials come from .env (git-ignored). Copy .env.example -> .env first.
+# Nothing is hardcoded here.
+# ============================================================================
+
+services:
+  # ── Postgres: the durability boundary. Named volume + init-time role setup. ─
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      # Bootstrap superuser — used ONLY by init + the migrate step, never by api.
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Runs ONCE on first cluster creation: provisions the two app roles
+      # (bb_migrate / bb_app) per infra-final.md §6. Read-only mount.
+      - ./server/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    # ports: none in base (published only in the dev override).
+
+  # ── migrate: one-shot DDL job. Gates api startup. Runs to completion, exits. ─
+  migrate:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    image: boothbooth-api          # same image as api; build once, reuse.
+    restart: "no"                   # it's a job: run once, exit 0, do NOT loop.
+    command: ["npm", "run", "migrate"]   # node dist/db/migrate.js
+    environment:
+      # The DDL/migration role — the only role allowed CREATE EXTENSION + DDL.
+      DATABASE_URL_MIGRATE: ${DATABASE_URL_MIGRATE}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ── api: Fastify. Owns the whole schema. Non-root. ──────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    image: boothbooth-api
+    restart: unless-stopped
+    environment:
+      # Runtime DML role — NOT the migrate role. Least privilege.
+      DATABASE_URL: ${DATABASE_URL}
+      PORT: "4000"
+      NODE_ENV: ${NODE_ENV}
+      SESSION_COOKIE_SECRET: ${SESSION_COOKIE_SECRET}
+      COOKIE_SECURE: ${COOKIE_SECURE}
+      EXPO_TZ: ${EXPO_TZ}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        # api does NOT start until migrations applied and the job exited 0.
+        condition: service_completed_successfully
+    healthcheck:
+      # /healthz returns 200 only when the DB is reachable (SELECT 1).
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:4000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    # ports: none in base (published only in the dev override).
+
+  # ── client: nginx serving the SPA + proxying /api. Sole public origin. ──────
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    image: boothbooth-client
+    restart: unless-stopped
+    depends_on:
+      api:
+        # so nginx doesn't accept traffic and immediately 502 on /api at boot.
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/healthz || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "8080:80"        # the single public entry point (TLS edge sits in front).
+
+volumes:
+  pgdata:
+
+networks:
+  default:
+    # One user-defined bridge; name-based DNS (api, postgres) is resolvable.
+    driver: bridge

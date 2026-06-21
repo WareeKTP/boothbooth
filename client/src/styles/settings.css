@@ -1,0 +1,57 @@
+/* Settings screen — lifted from design-reference/index.html. */
+.bb-set-id {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.bb-avatar-xl {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  font-size: 1.2rem;
+  flex: 0 0 60px;
+}
+.bb-set-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.bb-set-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.bb-set-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.bb-set-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding-top: 2px;
+}
+.bb-set-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.bb-set-row-t {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+.bb-set-row-s {
+  font-size: 0.74rem;
+  color: var(--text-3);
+  margin-top: 3px;
+}
+.bb-set-row-error {
+  font-size: 0.72rem;
+  color: var(--crit);
+  margin-top: 4px;
+}

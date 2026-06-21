@@ -1,0 +1,40 @@
+# ============================================================================
+# BoothBooth — docker build context exclusions (infra-final.md §3)
+# Keeps the build context small and prevents secrets/junk leaking into images.
+# Build context is the repo root for both Dockerfiles.
+# ============================================================================
+
+# Dependencies — reinstalled inside the image via `npm ci`.
+node_modules
+**/node_modules
+
+# Build output — regenerated in the build stage.
+dist
+**/dist
+
+# Secrets — NEVER bake .env into an image (.env.example is fine to keep out too).
+.env
+**/.env
+!.env.example
+
+# VCS + tooling.
+.git
+.gitignore
+.github
+
+# Docs / design / mockups — not needed at build or runtime.
+docs
+design-reference
+
+# Compose + container meta (not needed inside the image build context).
+docker-compose*.yml
+**/Dockerfile
+.dockerignore
+
+# Editor / OS noise + local caches.
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+**/*.log
+.claude

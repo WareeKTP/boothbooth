@@ -1,0 +1,8 @@
+/* Generic form layout helpers shared by settings/account forms.
+   bb-field/bb-input/bb-select live in base.css; this file holds layout-only
+   wrappers that don't belong to a specific screen. */
+.bb-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

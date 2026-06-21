@@ -1,0 +1,26 @@
+# ============================================================================
+# BoothBooth — PROD override (infra-final.md §2.3)
+#
+# Run with BOTH files, explicitly (this suppresses the auto-loaded dev override
+# so prod never inherits published DB/API ports):
+#     docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# Immutable built images only — no bind mounts, no watch. Only `client:8080` is
+# published; postgres and api are unreachable from outside the Docker network.
+#
+# Before go-live: set strong POSTGRES_PASSWORD + matching bb_migrate/bb_app
+# passwords in .env, a 32+ byte SESSION_COOKIE_SECRET, NODE_ENV=production,
+# COOKIE_SECURE=true, and terminate TLS at/in front of the client nginx.
+# (See backup/restore note: docs/ops/backup-restore.md.)
+# ============================================================================
+
+services:
+  # No host port on postgres in prod (drop the dev mapping). It stays internal.
+  postgres:
+    ports: []
+
+  api:
+    environment:
+      NODE_ENV: production
+      COOKIE_SECURE: "true"          # Secure cookie (TLS terminated at/before nginx).
+    ports: []                         # no host port on api in prod.
