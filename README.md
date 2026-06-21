@@ -67,8 +67,8 @@ docker-compose.prod.yml        production hardening (used only when explicitly r
 
 ## How to deploy
 
-Both modes need a `.env` file first — copy `.env.example` to `.env` and fill in real values
-(passwords, a long random `SESSION_COOKIE_SECRET`, etc). **Never commit `.env`.**
+Both modes need a `.env` file first — fill in real values
+(passwords, a long random `SESSION_COOKIE_SECRET`, etc).
 
 ### Dev mode (local coding, live reload)
 
