@@ -1,6 +1,6 @@
 # BoothBooth
 
-Inventory + point-of-sale system for vendors running multiple booths at a live expo/market.
+Inventory + POS system for vendors running multiple booths at a live expo/market/exhibition.
 
 ## What it does
 
