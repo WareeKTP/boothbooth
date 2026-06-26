@@ -191,11 +191,22 @@ export async function getBoothDetail(
     txn_count: string | number;
     units: string | number;
   }>(
-    `SELECT COALESCE(SUM(s.total_minor),0) AS revenue_minor,
-            COUNT(DISTINCT s.id)           AS txn_count,
-            COALESCE(SUM(si.qty),0)        AS units
-     FROM sales s LEFT JOIN sale_items si ON si.sale_id = s.id
-     WHERE s.booth_id = $1${saleWindow}`,
+    // Revenue + txn count off the sales rows alone; units summed from items in a
+    // separate CTE so total_minor isn't multiplied by the line-item count (the
+    // same pattern as getBoothList's booth_rev / booth_units split).
+    `WITH rev AS (
+       SELECT COALESCE(SUM(s.total_minor),0) AS revenue_minor,
+              COUNT(*)                        AS txn_count
+       FROM sales s
+       WHERE s.booth_id = $1${saleWindow}
+     ),
+     unit_agg AS (
+       SELECT COALESCE(SUM(si.qty),0) AS units
+       FROM sales s JOIN sale_items si ON si.sale_id = s.id
+       WHERE s.booth_id = $1${saleWindow}
+     )
+     SELECT rev.revenue_minor, rev.txn_count, unit_agg.units
+     FROM rev CROSS JOIN unit_agg`,
     params,
   );
   const sm = summaryRes.rows[0]!;

@@ -23,8 +23,7 @@ dist
 .github
 
 # Docs / design / mockups — not needed at build or runtime.
-docs
-design-reference
+design
 
 # Compose + container meta (not needed inside the image build context).
 docker-compose*.yml

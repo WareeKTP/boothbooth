@@ -1,8 +1,30 @@
-node_modules/
-dist/
-*.tsbuildinfo
-unused/
+# ── Tool / AI workspace (never ship) ──────────────────────────────────────────
+.agents/
 .claude/
 .impeccable/
+skills-lock.json
+
+# ── Design & planning docs ─────────────────────────────────────────────────────
+design/
+
+# ── Project instructions (dev-only, not part of deployment) ───────────────────
+CLAUDE.md
+
+# ── Environment & secrets ──────────────────────────────────────────────────────
 .env
-.env.example
+.env.*
+!.env.example
+
+# ── Dependencies ───────────────────────────────────────────────────────────────
+node_modules/
+
+# ── Build outputs (generated at deploy time, never commit) ────────────────────
+dist/
+build/
+
+# ── TypeScript incremental build cache ────────────────────────────────────────
+*.tsbuildinfo
+
+# ── OS / editor noise ─────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

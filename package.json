@@ -2,8 +2,8 @@
   "name": "boothbooth",
   "private": true,
   "workspaces": [
-    "client",
-    "server"
+    "app/frontend",
+    "app/backend"
   ],
   "dependencies": {
     "playwright": "^1.61.0"

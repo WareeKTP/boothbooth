@@ -106,6 +106,19 @@ export function LoginPage() {
           </Button>
         </form>
       </div>
+      <div className="bb-login-tags">
+        {([
+          ['warehouse', 'Warehouse'],
+          ['boxes', 'Stock'],
+          ['scan-line', 'POS'],
+          ['receipt', 'Sales'],
+        ] as const).map(([icon, label]) => (
+          <span key={icon} className="bb-login-tag">
+            <Icon name={icon} size={16} strokeWidth={1.7} />
+            {label}
+          </span>
+        ))}
+      </div>
       <div className="bb-login-foot mono">BOOTHBOOTH</div>
     </div>
   );

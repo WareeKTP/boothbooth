@@ -1,0 +1,4 @@
+# Shell scripts must stay LF — they run inside Linux containers where a CRLF
+# in the shebang ("#!/bin/bash\r") breaks execution. Keeps Windows checkouts
+# (autocrlf=true) from corrupting the DB init scripts.
+*.sh text eol=lf

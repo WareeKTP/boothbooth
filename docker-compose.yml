@@ -21,11 +21,16 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      # App-role passwords — consumed at init time by 02-set-passwords.sh to set
+      # bb_migrate / bb_app passwords. MUST match the creds in DATABASE_URL_MIGRATE
+      # / DATABASE_URL. Only the .sh init script can read these (env vars).
+      BB_MIGRATE_PASSWORD: ${BB_MIGRATE_PASSWORD}
+      BB_APP_PASSWORD: ${BB_APP_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
       # Runs ONCE on first cluster creation: provisions the two app roles
       # (bb_migrate / bb_app) per infra-final.md §6. Read-only mount.
-      - ./server/db/init:/docker-entrypoint-initdb.d:ro
+      - ./app/db/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
@@ -38,7 +43,7 @@ services:
   migrate:
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: app/backend/Dockerfile
     image: boothbooth-api          # same image as api; build once, reuse.
     restart: "no"                   # it's a job: run once, exit 0, do NOT loop.
     command: ["npm", "run", "migrate"]   # node dist/db/migrate.js
@@ -53,7 +58,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: app/backend/Dockerfile
     image: boothbooth-api
     restart: unless-stopped
     environment:
@@ -83,7 +88,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: client/Dockerfile
+      dockerfile: app/frontend/Dockerfile
     image: boothbooth-client
     restart: unless-stopped
     depends_on:

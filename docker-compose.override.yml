@@ -6,7 +6,7 @@
 #
 # NOTE on the client in dev: we generally do NOT run the nginx container in dev.
 # Instead run the Vite dev server on the host:
-#     cd client && npm run dev        # -> http://localhost:5173
+#     cd app/frontend && npm run dev  # -> http://localhost:5173
 # Vite's built-in proxy (vite.config.ts: server.proxy['/api'] -> :4000) keeps dev
 # same-origin, so relative /api/... works with zero CORS config — identical code
 # to prod. The nginx `client` service is gated behind the `client` profile below,
@@ -17,13 +17,13 @@
 services:
   postgres:
     ports:
-      - "5432:5432"        # local DB tooling (psql / a GUI). Dev-only.
+      - "127.0.0.1:5432:5432"   # local DB tooling (psql / a GUI). Dev-only, loopback-only.
 
   api:
     # Use the build stage: it has dev deps (tsx) + full source for live reload.
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: app/backend/Dockerfile
       target: build
     image: boothbooth-api-dev
     user: root             # bind-mounted host source isn't owned by the image user.
@@ -32,13 +32,13 @@ services:
       NODE_ENV: development
       COOKIE_SECURE: "false"          # session cookie works over plaintext localhost.
     ports:
-      - "4000:4000"        # direct API poking / curl during dev.
+      - "127.0.0.1:4000:4000"   # direct API poking / curl during dev. Loopback-only.
     volumes:
       # Live reload: mount host source over the image's copy. Anonymous volume on
       # node_modules so the container's installed deps aren't shadowed by the host.
-      - ./server:/app/server
+      - ./app/backend:/app/app/backend
       - /app/node_modules
-      - /app/server/node_modules
+      - /app/app/backend/node_modules
 
   client:
     # Off by default in dev (use the Vite dev server on :5173 instead). Start with

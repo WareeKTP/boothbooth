@@ -18,9 +18,38 @@ services:
   # No host port on postgres in prod (drop the dev mapping). It stays internal.
   postgres:
     ports: []
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 512m              # DB needs the most headroom (shared_buffers, work_mem).
 
   api:
     environment:
       NODE_ENV: production
       COOKIE_SECURE: "true"          # Secure cookie (TLS terminated at/before nginx).
     ports: []                         # no host port on api in prod.
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 256m              # Node API: modest steady-state footprint.
+
+  client:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 64m               # nginx serving static assets is tiny.
