@@ -1,8 +1,24 @@
 # 🏪 BoothBooth
 
-> Inventory management and point-of-sale system for vendors running multiple booths at a live expo or market.
+A simple tool for vendors running multiple booths at an expo or market. Stock lives in one central warehouse and gets shared out to each booth. Everyone sees what's selling and what needs restocking — in real time.
 
-Stock lives in one central warehouse and gets allocated out to each booth. The **owner** monitors revenue and stock across every booth in real time; **staff** ring up sales and request restocks from their assigned booth.
+---
+
+## ใครใช้งานบ้าง
+
+**เจ้าของ (Owner)** — เห็นภาพรวมทั้งหมด: ยอดขายรวม, สต็อกสินค้าในทุกบูธ, สินค้าไหนขายดีที่สุด และอนุมัติคำขอเติมสินค้าทั้งหมด
+
+**พนักงาน (Staff)** — ดูแลบูธของตัวเอง บันทึกการขาย ตรวจสอบสต็อกของตัวเอง และส่งคำขอเติมสินค้าจากคลังเมื่อของใกล้หมด
+
+---
+
+## ทำอะไรได้บ้าง
+
+- บันทึกการขายที่บูธ (ระบบ POS)
+- ติดตามสต็อกสินค้าในทุกบูธและคลังสินค้ากลาง
+- พนักงานขอเติมสินค้าได้ เจ้าของอนุมัติแล้วระบบโอนสินค้าให้อัตโนมัติ
+- แดชบอร์ดเจ้าของแสดงยอดขายและข้อมูลสินค้าแบบเรียลไทม์
+- แต่ละคนล็อกอินด้วยบัญชีของตัวเอง — พนักงานเห็นแค่บูธของตัวเอง
 
 ---
 
@@ -65,139 +81,9 @@ Browser
 
 ---
 
-## 🐳 Services
-
-| Service | Image | Port | Role |
-|---|---|---|---|
-| `postgres` | `postgres:16-alpine` | — | 🗄️ Primary datastore |
-| `migrate` | `boothbooth-api` | — | ⚙️ One-shot DDL job; exits after applying migrations |
-| `api` | `boothbooth-api` | `4000` *(dev only)* | 🔧 Fastify REST API |
-| `client` | `boothbooth-client` | `8080` | 🌐 nginx SPA + API proxy |
-
----
-
-## 🛣️ API Routes and Features
-
-All routes are prefixed `/api`. Auth uses an httpOnly session cookie set on login.
-
-### 🔑 Auth
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `POST` | `/api/auth/login` | Public | Authenticate and receive session cookie |
-| `POST` | `/api/auth/logout` | Any | Destroy session and clear cookie |
-| `GET` | `/api/auth/me` | Any | Fetch current account (SPA bootstrap) |
-
-### 👤 Staff Accounts
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `POST` | `/api/accounts` | Owner | Register a new staff account, assigned to a booth |
-
-### 📊 Dashboard
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `GET` | `/api/dashboard` | Owner | KPIs, booth revenue series, top products, recent sales |
-
-### 🏪 Booths
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `GET` | `/api/booths` | Owner | List all booths with summary stats |
-| `GET` | `/api/booths/:boothId` | Owner / Staff (own) | Booth detail — inventory, transactions, breakdown |
-
-### 🏭 Warehouse
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `GET` | `/api/warehouse` | Owner + Staff | Full warehouse stock list with status |
-| `POST` | `/api/warehouse/receive` | Owner | Receive new stock into the warehouse (idempotent) |
-
-### 🛒 POS / Sales
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `GET` | `/api/pos/catalog` | Staff | Products available to sell at own booth |
-| `POST` | `/api/sales` | Staff | Complete a sale (idempotent via `Idempotency-Key` header) |
-
-### 📦 Restock
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `POST` | `/api/restock-requests` | Staff | Request stock from the warehouse |
-| `GET` | `/api/restock-requests` | Owner (all) / Staff (own) | List restock requests |
-| `POST` | `/api/restock-requests/:id/fulfill` | Owner | Fulfill a request — transfers stock warehouse → booth |
-
-### ⚙️ Account Settings
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `GET` | `/api/me/booth` | Staff | Own booth detail |
-| `GET` | `/api/me/daily-log` | Staff | Today's sales summary and transactions |
-| `PATCH` | `/api/me/profile` | Any | Update name, email, or phone |
-| `PATCH` | `/api/me/password` | Any | Change password (invalidates other sessions) |
-| `PATCH` | `/api/me/prefs` | Any | Toggle notification preferences |
-
-### 🩺 Health
-
-| Method | Path | Access | Description |
-|---|---|---|---|
-| `GET` | `/healthz` | Public | Returns `ok` when DB is reachable |
-
----
-
-## 📁 Directory Topology
-
-```
-boothbooth/
-├── app/
-│   ├── frontend/               # 🖥️ React SPA
-│   │   ├── src/
-│   │   │   ├── app/            # Shell, router, theme, toast, session
-│   │   │   ├── features/       # One folder per page/domain
-│   │   │   │   ├── auth/
-│   │   │   │   ├── dashboard/
-│   │   │   │   ├── booths/
-│   │   │   │   ├── warehouse/
-│   │   │   │   ├── pos/
-│   │   │   │   ├── mybooth/
-│   │   │   │   ├── restock/
-│   │   │   │   ├── dailylog/
-│   │   │   │   ├── settings/
-│   │   │   │   └── staff/
-│   │   │   ├── components/     # Shared UI components
-│   │   │   ├── lib/            # API client, query hooks, types
-│   │   │   └── styles/         # Global CSS
-│   │   ├── Dockerfile
-│   │   └── nginx.conf
-│   │
-│   ├── backend/                # 🔧 Fastify API
-│   │   ├── src/
-│   │   │   ├── routes/         # Route handlers (one file per domain)
-│   │   │   ├── domain/         # Business logic queries
-│   │   │   ├── db/             # Pool, migrate, seed scripts
-│   │   │   ├── lib/            # Auth, errors, currency, idempotency
-│   │   │   └── plugins/        # Fastify auth plugin
-│   │   └── Dockerfile
-│   │
-│   └── db/
-│       └── init/               # 🗄️ Postgres init scripts (roles + passwords)
-│
-├── docker-compose.yml          # Base service definitions
-├── docker-compose.override.yml # Dev extras (live reload, exposed ports)
-├── docker-compose.prod.yml     # Production hardening
-├── .env.example                # Required environment variable reference
-└── package.json                # npm workspaces root
-```
-
----
-
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- 🐳 [Docker Desktop](https://www.docker.com/products/docker-desktop/) with Docker Compose v2
+You need [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed. That's the only requirement.
 
 ### 1️⃣ Configure environment
 
@@ -205,7 +91,7 @@ boothbooth/
 cp .env.example .env
 ```
 
-Edit `.env` and set real values. Required fields:
+Open `.env` in any text editor and fill in the passwords. The file has comments explaining each one.
 
 | Variable | Description |
 |---|---|
@@ -216,38 +102,17 @@ Edit `.env` and set real values. Required fields:
 | `DATABASE_URL` | 🔗 Full connection string using `bb_app` credentials |
 | `SESSION_COOKIE_SECRET` | 🛡️ Random string, **minimum 32 characters** |
 
-### 2️⃣ Start the stack
-
-**🔄 Dev mode** — live API reload, database and API ports exposed locally:
+### 2️⃣ Start the app
 
 ```bash
 docker compose up
 ```
 
-→ API available at `http://localhost:4000`
-→ For the frontend with hot reload, run separately:
-```bash
-cd app/frontend && npm run dev
-```
-→ 🌐 open `http://localhost:5173`
+Then open **http://localhost:8080** in your browser.
 
-**📦 Full containerized** — includes the nginx-served frontend:
+### 3️⃣ Load demo data (optional)
 
-```bash
-docker compose --profile client up
-```
-
-→ 🌐 open `http://localhost:8080`
-
-**🏭 Production** — no exposed ports, no dev mounts:
-
-```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-```
-
-### 3️⃣ Seed demo data
-
-The seed script uses `TRUNCATE` so it needs the migrate role's connection string:
+To try the app with sample products and sales already loaded:
 
 ```bash
 docker compose exec \
@@ -255,7 +120,7 @@ docker compose exec \
   api npm run seed --workspace=@boothbooth/server
 ```
 
-Demo logins (password: `password123`):
+Demo accounts (password for all: `password123`):
 
 | Email | Role |
 |---|---|
@@ -267,6 +132,6 @@ Demo logins (password: `password123`):
 ### 4️⃣ Stop
 
 ```bash
-docker compose down          # stop, keep data
-docker compose down -v       # 🗑️ stop and wipe the database
+docker compose down        # stop, keep your data
+docker compose down -v     # 🗑️ stop and delete all data
 ```
