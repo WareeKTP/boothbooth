@@ -40,10 +40,11 @@
 
 | | |
 |---|---|
-| ![Log-in page](preview/Log-in%20page.png) | ![POS page](preview/POS%20page.png) |
-| ![Booth Inventory](preview/Booth%20Inventory.png) | ![Warehouse Stock](preview/Warehouse%20Stock.png) |
-
-![Daily sales](preview/Daily%20sales.png)
+| ![Log-in page](preview/Log-in%20page.png) |
+| ![POS page](preview/POS%20page.png) |
+| ![Booth Inventory](preview/Booth%20Inventory.png) |
+| ![Warehouse Stock](preview/Warehouse%20Stock.png) |
+| ![Daily sales](preview/Daily%20sales.png)
 
 ---
 
