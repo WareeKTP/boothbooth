@@ -1,6 +1,7 @@
 # 🏪 BoothBooth
 
-A simple tool for vendors running multiple booths at an expo or market. Stock lives in one central warehouse and gets shared out to each booth. Everyone sees what's selling and what needs restocking — in real time.
+เป็นระบบจัดการสต็อกสินค้าและระบบขายหน้าร้าน (POS) สำหรับธุรกิจที่มีการเปิดบูธในงานเอ็กซ์โป, ตลาดนัด หรืองานกิจกรรมต่าง ๆ โดยที่สินค้าส่วนใหญ่ถูกเก็บไว้ในคลังกลาง แล้วกระจายไปยังแต่ละบูธ/ร้านค้า 
+มีผู้ใช้สองประเภทคือ เจ้าของ (Owner) ที่สามารถติดตามยอดขายและสต็อกของทุกบูธแบบเรียลไทม์ และ พนักงาน (Staff) ที่ทำหน้าที่ขายสินค้าและขอเติมสต็อกให้บูธหรือหน้าร้านของตน
 
 ---
 
@@ -14,11 +15,11 @@ A simple tool for vendors running multiple booths at an expo or market. Stock li
 
 ## ทำอะไรได้บ้าง
 
-- บันทึกการขายที่บูธ (ระบบ POS)
-- ติดตามสต็อกสินค้าในทุกบูธและคลังสินค้ากลาง
-- พนักงานขอเติมสินค้าได้ เจ้าของอนุมัติแล้วระบบโอนสินค้าให้อัตโนมัติ
+- บันทึกการขายที่หน้าร้าน (ระบบ POS)
+- ติดตามสต็อกสินค้าในทุกหน้าร้านและคลังสินค้ากลาง
+- พนักงานขอเติมสินค้า หลังจากเจ้าของอนุมัติ ระบบจะเข้าสู่กระบวนการส่งสินค้า
 - แดชบอร์ดเจ้าของแสดงยอดขายและข้อมูลสินค้าแบบเรียลไทม์
-- แต่ละคนล็อกอินด้วยบัญชีของตัวเอง — พนักงานเห็นแค่บูธของตัวเอง
+- หน้าร้านแต่ละที่ล็อกอินด้วยบัญชีของตัวเอง — พนักงานเห็นแค่บูธของตัวเอง
 
 ---
 
@@ -26,18 +27,23 @@ A simple tool for vendors running multiple booths at an expo or market. Stock li
 
 | Layer | Technology |
 |---|---|
-| 🖥️ Frontend | React 18, TypeScript, Vite, React Router v6, TanStack Query |
-| 🔧 Backend | Fastify (Node.js + TypeScript), raw `pg` driver (no ORM) |
-| 🗄️ Database | PostgreSQL 16 with `citext` extension |
-| 🔐 Auth | Cookie-based sessions (httpOnly, signed), Argon2id password hashing |
-| 🌐 Proxy | nginx — serves the SPA and reverse-proxies `/api/*` |
+| 🖥️ Frontend | React |
+| 🔧 Backend | Fastify |
+| 🗄️ Database | PostgreSQL |
+| 🔐 Auth | Cookie-based sessions, Argon2id password hashing |
+| 🌐 Proxy | nginx |
 | 📦 Runtime | Node 20 Alpine, Docker + Docker Compose |
 
 ---
 
 ## 🖼️ Preview
 
-> Screenshots coming soon.
+| | |
+|---|---|
+| ![Log-in page](preview/Log-in%20page.png) | ![POS page](preview/POS%20page.png) |
+| ![Booth Inventory](preview/Booth%20Inventory.png) | ![Warehouse Stock](preview/Warehouse%20Stock.png) |
+
+![Daily sales](preview/Daily%20sales.png)
 
 ---
 
